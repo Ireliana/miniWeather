@@ -1,0 +1,108 @@
+.index {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	color: #fff;
+}
+.topicImg {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	bottom: 0;
+	right: 0;
+}
+
+.content {
+	margin-top: 20%;
+	position: relative;
+	z-index: 2;
+	flex: 1;
+	.userInfo {
+		display: flex;
+		align-items: center;
+		padding: 0 50px;
+	}
+	.avatar {
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		overflow: hidden;
+		display: block;
+	}
+	.username {
+		padding: 0 20px;
+		font-size: 30px;
+	}
+	.icon-arrow {
+		width: 20px;
+		height: 20px;
+	}
+
+	.infoView {
+		.city-container {
+			display: flex;
+			align-items: center;
+			padding: 30px 0 50px;
+		}
+		.city {
+			padding: 0 80px 0 50px;
+			display: flex;
+			justify-content: left;
+			align-items: center;
+		}
+		.icon-location {
+			width: 30px;
+			height: 30px;
+			margin-right: 20px;
+			background: url("../../img/location_s_w.png") no-repeat center/100%;
+		}
+		.name {
+			font-size: 60px;
+		}
+		.icon-arrow {
+			margin-left: 20px;
+			width: 30px;
+			height: 30px;
+		}
+		.updateTime {
+			font-size: 28px;
+		}
+		.tmp {
+			height: 360px;
+			font-size: 140px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			.degree {
+				font-size: 40px;
+			}
+		}
+		.cond_txt {
+			margin: 30px 0 40px;
+			font-size: 38px;
+			text-align: center;
+		}
+	}
+	.details {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		font-size: 24px;
+		background: rgba(0, 0, 0, 0.6);
+		margin-bottom: 20px;
+		.detail {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
+			padding: 10px 0;
+			height: 100px;
+			box-sizing: border-box;
+			width: 25%;
+			border-right: 1px solid rgba(250, 250, 250, 0.2);
+			border-bottom: 1px solid rgba(250, 250, 250, 0.2);
+		}
+	}
+}
