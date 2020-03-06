@@ -5,6 +5,8 @@ import { View, Image, OpenData, Text } from "@tarojs/components";
 import "./index.less";
 import iconArrow from "../../img/icon-down.png";
 import { formatDate } from "../../utils/index";
+import Menu from "../../components/menu";
+import BgPage from "../../components/bgPage";
 
 type topicItem = {
 	img: string;
@@ -36,6 +38,7 @@ type IndexState = {
 			loc: string;
 		};
 	};
+	isShowBackgroundPage: boolean;
 };
 
 class Index extends Component {
@@ -117,13 +120,15 @@ class Index extends Component {
 			basic: { location: "", parent_city: "" },
 			now: { tmp: "", cond_txt: "" },
 			update: { loc: "" }
-		}
+		},
+		isShowBackgroundPage: false
 	};
 	componentWillMount() {}
 
 	componentWillReact() {}
 
 	async componentDidMount() {
+		this.setTopic();
 		const { authSetting } = await this.getSetting();
 		if (!authSetting["scope.userLocation"]) {
 			await Taro.authorize({
@@ -143,7 +148,7 @@ class Index extends Component {
 			url: "https://free-api.heweather.net/s6/weather/now",
 			data: {
 				location: `${latitude},${longitude}`,
-				key: "1b3706fe0a3e40f895c706637591a074"
+				key: "your hefengtianqi key"
 			},
 			success: res => {
 				this.setState(prevState => {
@@ -167,27 +172,25 @@ class Index extends Component {
 		});
 	}
 
-	// // 获取用户信息
-	// getUserInfo() {
-	// 	Taro.getUserInfo({
-	// 		success: res => {
-	// 			const { nickName, avatarUrl, province, city } = res.userInfo;
-	// 			console.log(nickName, avatarUrl, province, city);
-	// 		}
-	// 	});
-	// }
-
 	// 设置主题背景
-	setTopic(color) {
+	setTopic(index = 0) {
+		this.setState({
+			topicIndex: index
+		});
 		Taro.setNavigationBarColor({
-			frontColor: "#000000",
-			backgroundColor: color || this.state.topicList[0].barColor
+			frontColor: "#ffffff",
+			backgroundColor: this.state.topicList[index].barColor
 		});
 	}
 
 	onPullDownRefresh() {
 		this.getWeather();
-	}
+    }
+    onShareAppMessage() {
+        return {
+            title: "xxxx"
+        }
+    }
 
 	get topicImg() {
 		return this.state.topicList[this.state.topicIndex].img;
@@ -213,6 +216,7 @@ class Index extends Component {
 		return this.state.weather.now.cond_txt || "";
 	}
 	render() {
+		const { isShowBackgroundPage, topicList, topicIndex } = this.state;
 		return (
 			<View className="index">
 				<Image
@@ -220,52 +224,89 @@ class Index extends Component {
 					mode="aspectFill"
 					src={this.topicImg}
 				/>
-				<View className="content">
-					<View className="userInfo">
-						<OpenData
-							className="avatar"
-							type="userAvatarUrl"
-						></OpenData>
-						<OpenData
-							className="username"
-							type="userNickName"
-						></OpenData>
-						<Image
-							className="icon-arrow"
-							mode="aspectFill"
-							src={iconArrow}
-						/>
-					</View>
-					<View className="infoView">
-						<View className="city-container">
-							<View className="city">
-								<View className="icon-location"></View>
-								<Text className="name">{this.cityName}</Text>
+				{isShowBackgroundPage ? (
+					<BgPage
+						bgList={topicList}
+						topicIndex={topicIndex}
+						setTopic={this.setTopic.bind(this)}
+						onClose={() => {
+							this.setState({
+								isShowBackgroundPage: false
+							});
+						}}
+					/>
+				) : (
+					<View>
+						<View className="content">
+							<View
+								className="userInfo"
+								onClick={() => {
+									this.setState({
+										isShowBackgroundPage: true
+									});
+								}}
+							>
+								<OpenData
+									className="avatar"
+									type="userAvatarUrl"
+								></OpenData>
+								<OpenData
+									className="username"
+									type="userNickName"
+								></OpenData>
 								<Image
 									className="icon-arrow"
 									mode="aspectFill"
 									src={iconArrow}
 								/>
 							</View>
-							<Text className="updateTime">
-								{this.updateTime}
-							</Text>
-						</View>
-						<View className="tmp">
-							{this.temp}
-							<Text className="degree">℃</Text>
-						</View>
-						<View className="cond_txt">{this.cond_txt}</View>
-					</View>
-					<View className="details">
-						{this.state.detailsMap.key.map((detail, index) => (
-							<View key={index} className="detail">
-								<View>{this.state.detailsMap.val[detail]}</View>
-								<View>{this.state.weather.now[detail]}</View>
+							<View className="infoView">
+								<View className="city-container">
+									<View className="city">
+										<View className="icon-location"></View>
+										<Text className="name">
+											{this.cityName}
+										</Text>
+										<Image
+											className="icon-arrow"
+											mode="aspectFill"
+											src={iconArrow}
+										/>
+									</View>
+									<Text className="updateTime">
+										{this.updateTime}
+									</Text>
+								</View>
+								<View className="tmp">
+									{this.temp}
+									<Text className="degree">℃</Text>
+								</View>
+								<View className="cond_txt">
+									{this.cond_txt}
+								</View>
 							</View>
-						))}
+							<View className="details">
+								{this.state.detailsMap.key.map(
+									(detail, index) => (
+										<View key={index} className="detail">
+											<View>
+												{
+													this.state.detailsMap.val[
+														detail
+													]
+												}
+											</View>
+											<View>
+												{this.state.weather.now[detail]}
+											</View>
+										</View>
+									)
+								)}
+							</View>
+						</View>
+						<Menu />
 					</View>
-				</View>
+				)}
 			</View>
 		);
 	}

@@ -1,0 +1,49 @@
+.bgPage {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	font-size: 24px;
+	min-height: 100vh;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	box-sizing: border-box;
+	padding: 20px 20px 50px;
+	background: rgba(255, 255, 255, 0);
+    color: #fff;
+    z-index: 100;
+	.bg-list {
+		display: flex;
+		align-items: center;
+		margin-top: 20px;
+		overflow: scroll;
+	}
+	.bg-box {
+		padding: 6px;
+		margin-right: 14px;
+		border: 1px solid rgba(255, 255, 255, 0);
+		transition: 0.1s ease;
+		.bg-img {
+			width: 110px;
+			height: 190px;
+		}
+		&.atv {
+			border: 1rpx solid #40a7e7;
+		}
+	}
+	.close-area {
+		flex: 1;
+		text-align: center;
+		padding: 20px 0;
+		.up-arrow {
+            display: inline-block;
+			width: 84px;
+			height: 84px;
+			background: url("../../img/up-arrow.png") no-repeat center/100% 100%;
+		}
+	}
+}
+::-webkit-scrollbar {
+	display: none;
+}

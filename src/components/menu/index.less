@@ -1,0 +1,67 @@
+.move-area{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+.menu-move {
+	height: 70px;
+	width: 70px;
+	position: absolute;
+	z-index: 100;
+}
+.menus {
+	height: 70px;
+	width: 70px;
+	border-radius: 50%;
+	position: fixed;
+	z-index: 100;
+	// bottom: 150rpx;
+	// right: 70rpx;
+	.menu {
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		width: 100%;
+		border-radius: 50%;
+		z-index: 1;
+		&.main {
+			transition: transform 200ms ease-out 0ms;
+			transform: rotateZ(0deg);
+			transform-origin: 50% 50% 0px;
+			z-index: 10;
+		}
+		&.share,
+		&.setting,
+		&.location,
+		&.info {
+			opacity: 0;
+			transition: all 200ms ease-out 0ms;
+			transform: translate(0px, 0px) rotateZ(0deg);
+			transform-origin: 50% 50% 0px;
+		}
+	}
+	&.ant {
+		.share {
+			transform: translate(0px, -110px) rotateZ(360deg);
+			opacity: 1;
+		}
+		.main {
+			transform: rotateZ(180deg);
+		}
+		.setting {
+			transform: translate(-100.34068px, -55px) rotateZ(360deg);
+			opacity: 1;
+		}
+		.location {
+			transform: translate(-100.34068px, 55px) rotateZ(360deg);
+			opacity: 1;
+		}
+		.info {
+			transform: translate(0px, 110px) rotateZ(360deg);
+			opacity: 1;
+		}
+	}
+}
